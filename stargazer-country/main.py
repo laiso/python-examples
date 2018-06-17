@@ -62,8 +62,9 @@ def fetch(owner, repo, lastId="", countries={}, count=0):
     cursor = edges.pop()['cursor']
 
     text = geotext.GeoText(response)
-    for c in text.countries:
-        countries[c] = countries[c] + 1 if countries.get(c) else 1
+    for code in text.country_mentions:
+        cc = text.country_mentions.get(code)
+        countries[code] = countries[code] + cc if countries.get(code) else cc
 
     # time.sleep(1)
     print("[{}] {}/{} {}".format(count, owner, repo, lastId))
@@ -71,7 +72,7 @@ def fetch(owner, repo, lastId="", countries={}, count=0):
 
 
 def main():
-    slug = 'facebook/react'
+    slug = 'laravel/laravel'
     result = {}
     owner, repo = slug.split('/')
     result[repo] = fetch(owner, repo)
